@@ -23,16 +23,9 @@ class Driver {
     }
 
     passengers() {
-        return store.passengers.filter(
-            function(passenger) {
-                //this needs to be evaluate to true:
-                this.trips().find(
-                    function(trip) {
-                        trip.passengerId === passenger.id
-                    }
-                );
-            }.bind(this)
-        );
+        return this.trips().map(function(trip) {
+            return trip.passenger();
+        })
     }
 }
 
@@ -53,11 +46,9 @@ class Passenger {
     }
 
     drivers() {
-        return this.trips().filter(
-            function(trip) {
-                return trip.driver();
-            }.bind(this)
-        );
+        return this.trips().map(function(trip) {
+            return trip.driver();
+        })
     }
 }
 
@@ -91,3 +82,16 @@ class Trip {
         );
     }
 }
+
+
+let driver;
+let passenger;
+let firstTrip;
+let secondTrip;
+let secondPassenger
+
+driver = new Driver("Alfie")
+passenger = new Passenger("Bob")
+firstTrip = new Trip(driver, passenger)
+secondPassenger = new Passenger("Susan")
+secondTrip = new Trip(driver, secondPassenger)
